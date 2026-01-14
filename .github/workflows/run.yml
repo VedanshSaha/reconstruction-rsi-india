@@ -31,8 +31,10 @@ jobs:
 
     - name: Commit and push
       run: |
+        git checkout -B generated
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
-        git add graphs
-        git commit -m "Update generated graphs" || echo "No changes"
-        git push
+        git add .
+        git commit -m "Update generated data" || echo "No changes"
+        git push -f origin generated
+
