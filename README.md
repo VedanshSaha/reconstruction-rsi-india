@@ -12,7 +12,7 @@ This project uses large-scale enumeration, canonicalization, invariant extractio
 
 ---
 
-## 🔬 What this project does
+## What this project does:
 
 The entire pipeline is fully automated and runs in the cloud using GitHub Actions. It consists of four major stages:
 
