@@ -92,12 +92,6 @@ Most progress on the Reconstruction Conjecture is theoretical. This project inst
 
 Even when no true counterexample is found, the structure of these near-collisions gives insight into why reconstruction works as often as it does.
 
----
-
-## Repository structure
-
-
----
 
 ## Conclusion
 
