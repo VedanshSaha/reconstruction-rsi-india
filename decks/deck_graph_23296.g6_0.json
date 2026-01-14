@@ -1,0 +1,142 @@
+{
+  "source_file": "graphs/graph_23296.g6",
+  "index": 0,
+  "g6": "F@Kc?",
+  "deck_signature": [
+    "3553083b673f451ea9be938c8cada905|0,1,1,1,1,2",
+    "3553083b673f451ea9be938c8cada905|0,1,1,1,1,2",
+    "5fb7d8d9ff75f939abcd806fd5ddfb77|1,1,1,2,2,3",
+    "8a00aa9ff1eb4a7e9cdc11d6ba7b0836|0,1,1,2,2,2",
+    "9189ad1267f9311a7e024c9b509472df|0,0,1,1,1,1",
+    "badc8b34af1ad7cfd54433cfd8f7f740|0,0,1,2,2,3",
+    "badc8b34af1ad7cfd54433cfd8f7f740|0,0,1,2,2,3"
+  ],
+  "cards": [
+    {
+      "removed": 0,
+      "card_hash": "badc8b34af1ad7cfd54433cfd8f7f740|0,0,1,2,2,3",
+      "invariants": {
+        "n": 6,
+        "m": 4,
+        "deg_seq": [
+          3,
+          2,
+          2,
+          1,
+          0,
+          0
+        ],
+        "triangles": 1,
+        "4cycles": 0
+      }
+    },
+    {
+      "removed": 1,
+      "card_hash": "5fb7d8d9ff75f939abcd806fd5ddfb77|1,1,1,2,2,3",
+      "invariants": {
+        "n": 6,
+        "m": 5,
+        "deg_seq": [
+          3,
+          2,
+          2,
+          1,
+          1,
+          1
+        ],
+        "triangles": 1,
+        "4cycles": 0
+      }
+    },
+    {
+      "removed": 2,
+      "card_hash": "9189ad1267f9311a7e024c9b509472df|0,0,1,1,1,1",
+      "invariants": {
+        "n": 6,
+        "m": 2,
+        "deg_seq": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        "triangles": 0,
+        "4cycles": 0
+      }
+    },
+    {
+      "removed": 3,
+      "card_hash": "3553083b673f451ea9be938c8cada905|0,1,1,1,1,2",
+      "invariants": {
+        "n": 6,
+        "m": 3,
+        "deg_seq": [
+          2,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "triangles": 0,
+        "4cycles": 0
+      }
+    },
+    {
+      "removed": 4,
+      "card_hash": "3553083b673f451ea9be938c8cada905|0,1,1,1,1,2",
+      "invariants": {
+        "n": 6,
+        "m": 3,
+        "deg_seq": [
+          2,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "triangles": 0,
+        "4cycles": 0
+      }
+    },
+    {
+      "removed": 5,
+      "card_hash": "8a00aa9ff1eb4a7e9cdc11d6ba7b0836|0,1,1,2,2,2",
+      "invariants": {
+        "n": 6,
+        "m": 4,
+        "deg_seq": [
+          2,
+          2,
+          2,
+          1,
+          1,
+          0
+        ],
+        "triangles": 1,
+        "4cycles": 0
+      }
+    },
+    {
+      "removed": 6,
+      "card_hash": "badc8b34af1ad7cfd54433cfd8f7f740|0,0,1,2,2,3",
+      "invariants": {
+        "n": 6,
+        "m": 4,
+        "deg_seq": [
+          3,
+          2,
+          2,
+          1,
+          0,
+          0
+        ],
+        "triangles": 1,
+        "4cycles": 0
+      }
+    }
+  ]
+}
