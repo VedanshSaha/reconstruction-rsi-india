@@ -22,11 +22,11 @@ jobs:
       run: |
         python generate_graphs_fallback.py graphs 7 3
 
-    - name: Commit results
+    - name: Commit to bot branch
       run: |
+        git checkout -B generated-data
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
         git add graphs
-        git commit -m "Add generated graphs" || echo "Nothing to commit"
-        git pull --rebase
-        git push
+        git commit -m "Update generated graphs" || echo "Nothing to commit"
+        git push -f origin generated-data
