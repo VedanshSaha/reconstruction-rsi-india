@@ -25,8 +25,10 @@ jobs:
 
     - name: Commit results
       run: |
+        git checkout -B generated
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
-        git add candidate_pairs.json
-        git commit -m "Add deck collision candidates" || echo "No collisions"
-        git push
+        git add .
+        git commit -m "Update generated data" || echo "No changes"
+        git push -f origin generated
+
