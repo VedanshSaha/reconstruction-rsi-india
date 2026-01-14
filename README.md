@@ -1,100 +1,107 @@
 # Computational Experiments on the Graph Reconstruction Conjecture
 
-This repository contains a computational research pipeline I built to explore one of the most famous open problems in graph theory: the **Graph Reconstruction Conjecture**.
+## The conjecture
 
-The conjecture, proposed independently by Kelly and Ulam in the 1940s, states that every finite simple graph with at least three vertices is uniquely determined (up to isomorphism) by the multiset of its vertex-deleted subgraphs, called its *deck*. In other words, if one is given all graphs obtained by deleting a single vertex from an unknown graph, it should in principle be possible to reconstruct the original graph.
+The Graph Reconstruction Conjecture states that every finite simple graph with at least three vertices is uniquely determined, up to isomorphism, by the multiset of its vertex-deleted subgraphs.  
+These vertex-deleted subgraphs are called the *deck* of the graph.
 
-Despite decades of deep work, the conjecture remains open. No counterexample is known, and no general proof has been found. This project approaches the problem from a computational angle by systematically searching for graphs whose decks are indistinguishable under strong invariants.
+Equivalently, the conjecture says that no two non-isomorphic graphs on at least three vertices have exactly the same deck.
+
+Despite being open for more than seventy years, the conjecture has been verified for many special classes of graphs and for all graphs up to small numbers of vertices, but no general proof or counterexample is known.
 
 ---
 
-## What this project does
+## Purpose of this repository
 
-The goal is to look for pairs (or families) of non-isomorphic graphs that nevertheless have the same deck. To do this, the project implements a multi-stage pipeline:
+This repository implements a computational pipeline to search for graphs whose decks are indistinguishable under strong invariants. The goal is to identify either genuine counterexamples or graphs that are close to being counterexamples and therefore structurally difficult to reconstruct.
 
-1. Generate large families of graphs under structural constraints  
-2. Construct the full vertex-deleted deck of each graph  
-3. Canonicalize and hash each card using graph invariants  
-4. Assign a canonical signature to every deck  
-5. Group graphs by their deck signatures  
-6. Analyze candidate collisions using stronger invariants and visualizations  
+The pipeline is designed to:
+- enumerate large families of graphs under constraints,
+- construct the full vertex-deleted deck of each graph,
+- compute invariants of every card in each deck,
+- assign a canonical signature to each deck,
+- group graphs with matching deck signatures,
+- and analyze these groups using further invariants and visualizations.
 
-All stages of this pipeline are automated and run on GitHub’s cloud infrastructure, allowing the search to scale far beyond what a single laptop could handle.
+All steps can be run locally for small cases or on GitHub Actions for larger datasets.
 
 ---
 
 ## Graph generation
 
-Graphs are generated subject to constraints such as bounded maximum degree, which makes the search space large but still computationally manageable. To avoid duplicate labelings, graphs are stored in **graph6** format, a canonical encoding that uniquely represents a graph up to isomorphism.
+Graphs are generated subject to constraints such as bounded maximum degree. To avoid duplicate labelings, graphs are stored in **graph6** format, which provides a canonical encoding of a graph up to isomorphism.
 
-The generated data is stored in the `graphs/` directory. Each line of a `.g6` file corresponds to a single isomorphism class of graphs.
-
-In the current experiments, this repository contains over **20,000 distinct graphs** on up to seven vertices with maximum degree at most three.
+The generated graphs are stored in the `graphs/` directory. Each `.g6` file contains one graph per line, and each line represents one isomorphism class.
 
 ---
 
 ## Deck construction
 
-For each graph \( G \), its **deck** is defined as the multiset
-\[
-\{\, G - v \mid v \in V(G) \,\},
-\]
-that is, all graphs obtained by deleting one vertex.
+For each graph \(G\), the deck is the multiset of graphs \(G - v\) obtained by deleting each vertex \(v\) in turn.
 
-For every card \( G - v \), the code computes a collection of structural invariants:
-- the degree sequence  
-- the number of edges  
-- the number of triangles  
-- the number of 4-cycles  
-- connectivity information  
-- a Weisfeiler–Lehman (WL) hash  
+For every card \(G - v\), the pipeline computes the following invariants:
+- number of vertices and edges,
+- degree sequence,
+- number of triangles,
+- number of 4-cycles,
+- connectivity information,
+- a Weisfeiler–Lehman (WL) graph hash.
 
-These invariants are chosen because they are invariant under isomorphism, fast to compute, and surprisingly strong at distinguishing non-isomorphic graphs.
+These invariants are isomorphism-invariant and give a compact summary of each card’s structure.
 
-Each original graph is stored as a JSON file in the `decks/` folder, containing all of its vertex-deleted cards, the invariants of each card, and a sorted **deck signature**. This signature acts as a fingerprint of the entire deck.
+Each original graph is stored as a JSON file in the `decks/` directory. The file contains:
+- the original graph (in graph6 form),
+- all vertex-deleted cards,
+- the invariants of each card,
+- and a sorted list of card hashes called the *deck signature*.
 
-More than **20,000 full decks** have been constructed in the current dataset.
+The deck signature acts as a fingerprint of the entire deck.
 
 ---
 
 ## Collision detection
 
-Graphs are grouped by their deck signatures. If two or more graphs share the same signature, they are flagged as **candidate reconstruction collisions**.
+All deck signatures are grouped. If two or more graphs share the same deck signature, they are recorded as **candidate reconstruction collisions**.
 
-These groups are stored in the file:
+These are written to the file:
 
 
-Each entry contains a list of graphs whose decks are indistinguishable under the invariants used. These may either be isomorphic graphs (false positives) or genuinely difficult reconstruction cases.
-
-In the current run, the pipeline identified **dozens of such candidate collision groups**, many of which require deeper analysis.
+Each entry lists a deck signature and the set of graphs whose decks produce that signature. These groups may contain isomorphic graphs (false positives) or genuinely difficult cases for reconstruction.
 
 ---
 
-## Invariant analysis and plots
+## Invariant plots
 
-For each collision candidate, the project generates visual summaries of how invariants vary across the cards in the deck. In particular, it plots:
-- the number of triangles in each card  
-- the number of 4-cycles in each card  
+For each candidate collision, the pipeline produces plots showing how certain invariants vary across the cards of each deck. In particular, it plots:
+- triangle counts per card,
+- 4-cycle counts per card.
 
-These plots are saved as PNG images in the `plots/` directory. They allow visual comparison of decks that appear identical under hashing and often reveal subtle structural differences.
-
-The repository currently contains **hundreds of such invariant plots**.
+These plots are saved as PNG files in the `plots/` directory. They are used to visually compare decks that appear identical under hashing.
 
 ---
 
-## Why this approach is interesting
+## Repository structure
 
-Most progress on the Reconstruction Conjecture is theoretical. This project instead builds a computational microscope that makes it possible to:
-- explore large families of graphs  
-- identify where reconstruction is hardest  
-- test which invariants actually matter  
-- and isolate near-counterexamples  
+graphs/ graph6 datasets
+decks/ deck JSON files with invariants
+candidate_pairs.json deck collision groups
+plots/ invariant plots
 
-Even when no true counterexample is found, the structure of these near-collisions gives insight into why reconstruction works as often as it does.
+generate_graphs_fallback.py
+build_decks.py
+compare_decks.py
+plot_invariants_github.py
+invariants.py
 
 
-## Conclusion
+---
 
-This repository represents a large-scale computational experiment on one of graph theory’s deepest open problems. It does not aim to prove or disprove the Reconstruction Conjecture directly, but rather to map the landscape of graphs where reconstruction is most subtle and difficult.
+## What this provides
 
-By combining enumeration, canonicalization, invariant theory, and visualization, it provides a practical way to explore a conjecture that has resisted purely theoretical attack for more than seventy years.
+This repository implements a complete computational framework for exploring the Graph Reconstruction Conjecture on large families of graphs. It produces:
+- explicit decks for every graph in the dataset,
+- invariant-based deck signatures,
+- groups of graphs with matching decks,
+- and visual diagnostics for those groups.
+
+These outputs can be used to test reconstruction heuristics, study hard families of graphs, and search for potential counterexamples.
