@@ -29,8 +29,10 @@ jobs:
 
     - name: Commit plots
       run: |
+        git checkout -B generated
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
-        git add plots
-        git commit -m "Add invariant plots" || echo "No plots"
-        git push
+        git add .
+        git commit -m "Update generated data" || echo "No changes"
+        git push -f origin generated
+
