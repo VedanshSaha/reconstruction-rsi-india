@@ -1,0 +1,33 @@
+name: Generate graphs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"
+
+    - name: Install dependencies
+      run: |
+        pip install networkx
+
+    - name: Run generator
+      run: |
+        python generate_graphs_fallback.py graphs 7 3
+
+    - name: Commit results
+      run: |
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git add graphs
+        git commit -m "Add generated graphs" || echo "Nothing to commit"
+        git push
